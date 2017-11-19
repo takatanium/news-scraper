@@ -2,8 +2,8 @@
   <h1>SCRAPING BY</h1>
   <h2>New York Times Edition</h2>
 </header>
-<main class="container">
-  <section class="left" id="articles">
+<main>
+  <section>
     <h3><button id="new">Get New-s</button> Articles</h3> 
     {{#if data}}
       {{#each data}}
@@ -20,7 +20,7 @@
       {{/each}}
     {{/if}}
   </section>
-  <section class="right" id="notes">
+  <section>
     <h3>Saved Articles</h3>
     {{#if data}}
       {{#each data}}
@@ -31,10 +31,19 @@
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>
               </a>
-              <div class="note">
-                <div class="arrow">↳</div>
-                <p>Some notes of this</p> 
-              </div>
+              {{#if this.note}}
+                <div class="note">
+                  <div class="minus" data-id="{{this.note.id}}" 
+                    id="sub-{{this.id}}">-</div>
+                  <input type="text" id="{{this.id}}" 
+                    class="noted" value="{{this.note.text}}"> 
+                </div>
+              {{else}}
+                <div class="note">
+                  <div class="plus" id="add-{{this.id}}">+</div>
+                  <input type="text" id="{{this.id}}" placeholder="add comment">
+                </div>
+              {{/if}}
             </div>
           </article>
         {{/if}}
