@@ -1,37 +1,40 @@
 const express = require('express');
 const axios = require('axios');
-// const axios = require("axios"); //replace with request?
 const cheerio = require('cheerio');
 const request = require('request');
 const db = require('../models/');
 
-const maxArticles = 20;
+const maxArticles = 10;
 
 module.exports = (app) => {
   // Scrape NY Times Website
   app.get('/scrape', (req, res) => {
+    //delete documents from articles unless saved
+    db.Article.find({saved: false}).remove((err, num) => {
+      if (err) throw err;
+      request('https://www.nytimes.com/', function(error, response, body) {
+        if (error) throw error;
 
-    axios.get('https://www.nytimes.com/').then(response => {
-      const $ = cheerio.load(response.data);
-      $('article h2').each( function (i, element) {
-        if (i < maxArticles) {
-          let result = {};
+        const $ = cheerio.load(body);
+        $('article h2').each( function (i, element) {
+          if (i < maxArticles) {
+            let result = {};
 
-          result.title = $(this)
-            .children('a')
-            .text();
+            result.title = $(this)
+              .children('a')
+              .text();
 
-          result.link = $(this)
-            .children('a')
-            .attr('href');
+            result.link = $(this)
+              .children('a')
+              .attr('href');
 
-          db.Article
-            .create(result)
-            .then(dbArticle => res.json('Scraped') )
-            .catch(err => res.json(err) );
-        }
+            db.Article
+              .create(result)
+              .then(dbArticle => res.json('Scraped') )
+              .catch(err => res.json(err) );
+          }
+        });
       });
-
     });
   });
 
@@ -39,6 +42,7 @@ module.exports = (app) => {
   app.get('/', (req, res) => {
     db.Article
       .find({})
+      .sort({dateScraped: -1})
       .populate('note')
       .then(dbArticle => { 
         res.render('index', {data: dbArticle});

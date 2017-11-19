@@ -83,7 +83,8 @@ $('.noted').on('click', function () {
     }).html('✎').css('border', 'none');
 
     $edit.insertAfter($(`#sub-${id}`)).on('click', function () {
-      if ($in.val().trim() === '') {
+      if ($in.val().trim() === ''
+          || $in.val().trim() === $in.attr('value')) {
         $in.val($in.attr('value'));
         $(this).remove();
       } else {
@@ -118,7 +119,8 @@ $('input').on('keyup', function (e) {
       }      
     } else if ($(`#edit-${id}`).length !== 0) {
       const idNote = $(`#sub-${id}`).attr('data-id');
-      if ($(this).val().trim() === '') {
+      if ($(this).val().trim() === ''
+          || $(this).val().trim() === $(this).attr('value')) {
         $(this).val($(this).attr('value'));
         $(this).blur();
         $(`#edit-${id}`).remove();

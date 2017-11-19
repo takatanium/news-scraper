@@ -1,11 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const NoteSchema = new Schema({
   text: {
   	type: String,
   	trim: true,
-  	required: "Must have text."
+  	required: 'Must have text.'
   },
   created: {
     type: Date,
@@ -13,6 +13,6 @@ const NoteSchema = new Schema({
   }
 });
 
-const Note = mongoose.model("Note", NoteSchema);
+const Note = mongoose.model('Note', NoteSchema);
 
 module.exports = Note;

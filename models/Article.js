@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const ArticleSchema = new Schema({
@@ -22,10 +22,10 @@ const ArticleSchema = new Schema({
   },
   note: {
     type: Schema.Types.ObjectId,
-    ref: "Note"
+    ref: 'Note'
   }
 });
 
-const Article = mongoose.model("Article", ArticleSchema);
+const Article = mongoose.model('Article', ArticleSchema);
 
 module.exports = Article;

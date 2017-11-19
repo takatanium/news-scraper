@@ -1,6 +1,10 @@
 <header class="top">
   <h1>SCRAPING BY</h1>
   <h2>New York Times Edition</h2>
+  {{#if data}}
+    <p>Last Scraped</p> 
+    <p>{{data.1.dateScraped}}</p>
+  {{/if}}
 </header>
 <main>
   <section>
@@ -31,6 +35,10 @@
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>
               </a>
+              <div class="note">
+                <div class="arrow">↳</div>
+                <p>{{this.dateScraped}}</p>
+              </div>
               {{#if this.note}}
                 <div class="note">
                   <div class="minus" data-id="{{this.note.id}}" 
