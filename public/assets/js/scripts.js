@@ -102,8 +102,8 @@ $('.noted').on('click', function () {
 
 // Determine what to do if Enter is pressed in input
 $('input').on('keyup', function (e) {
+  const id = $(this).attr('id');
   if (e.keyCode === 13) {
-    const id = $(this).attr('id');
     if ($(`#add-${id}`).length !== 0) {
       if ($(this).val().trim() === '') {
         $(this).focus();
@@ -134,5 +134,30 @@ $('input').on('keyup', function (e) {
         }).then( () => location.reload() );
       }
     }
+  } else {
+    if ($(`#edit-${id}`).length === 0) {
+      const idNote = $(`#sub-${id}`).attr('data-id');
+      const $in = $(this);
+      const $edit = $('<div>').addClass('edit').attr({
+        id: `edit-${id}`,
+        'data-id': idNote
+      }).html('✎').css('border', 'none');
+
+      $edit.insertAfter($(`#sub-${id}`)).on('click', function () {
+        if ($in.val().trim() === ''
+            || $in.val().trim() === $in.attr('value')) {
+          $in.val($in.attr('value'));
+          $(this).remove();
+        } else {
+          $.ajax({
+            method: 'POST',
+            url: `/edit/${idNote}`,
+            data: {
+              text: $in.val()
+            }
+          }).then( () => location.reload() );
+        }     
+      })
+    }    
   }
 });

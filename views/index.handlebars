@@ -20,12 +20,22 @@
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>
               </a>
+              <div class="note">
+                <div class="arrow">↳</div>
+                <p>Scraped: {{this.dateScraped}}</p>
+              </div>
               {{#if this.summary}}
                 <div class="note">
                   <div class="arrow">↳</div>
-                  <p>{{this.summary}}</p>
+                  <p>Summary: {{this.summary}}</p>
                 </div> 
-              {{/if}}             
+              {{/if}}
+              {{#if this.note}}
+                <div class="note">
+                  <div class="arrow">↳</div>
+                  <p>Noted: {{this.note.text}}</p>
+                </div> 
+              {{/if}}   
             </div>
           </article>
         {{/unless}}
