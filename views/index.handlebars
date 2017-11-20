@@ -13,7 +13,9 @@
       {{#each data}}
         {{#unless this.saved}}
           <article>
-            <div class="box save" data-id="{{this.id}}">☐</div>
+            <div class="box">
+              <div class="save" data-id="{{this.id}}">☐</div>
+            </div>
             <div class="content">
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>
@@ -36,7 +38,9 @@
       {{#each data}}
         {{#if this.saved}}
           <article>
-            <div class="box unsave" data-id="{{this.id}}">☑</div>
+            <div class="box">
+              <div class="unsave" data-id="{{this.id}}">☑</div>
+            </div>
             <div class="content">
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>

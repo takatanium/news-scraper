@@ -94,9 +94,10 @@ a {
 }
 
 a:hover,
-.box:hover,
+.save:hover,
+.unsave:hover,
 .plus:hover,
-.minus:hover
+.minus:hover,
 .edit:hover {
 	color: hsl(0,0%,60%);
 	border-color: hsl(0,0%,60%);
@@ -106,13 +107,18 @@ a:hover,
 	flex: 1;
 }
 
-.box,
-.arrow,
+.save,
+.unsave,
 .plus,
 .minus,
 .edit {
 	margin-right: 5px;
 	cursor: pointer;
+}
+
+.box,
+.arrow {
+	margin-right: 5px;
 }
 
 .plus,
