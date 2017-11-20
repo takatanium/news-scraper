@@ -18,6 +18,12 @@
               <a href="{{this.link}}" target="_blank" title="{{this.link}}">
                 <h4>{{this.title}}</h4>
               </a>
+              {{#if this.summary}}
+                <div class="note">
+                  <div class="arrow">↳</div>
+                  <p>{{this.summary}}</p>
+                </div> 
+              {{/if}}             
             </div>
           </article>
         {{/unless}}

@@ -20,6 +20,10 @@ const ArticleSchema = new Schema({
     required: true,
     default: false
   },
+  summary: {
+    type: String,
+    trim: true
+  },
   note: {
     type: Schema.Types.ObjectId,
     ref: 'Note'

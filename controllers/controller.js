@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const db = require('../models/');
 
-const maxArticles = 12;
+let maxArticles = 10;
 
 module.exports = (app) => {
   // Scrape NY Times Website
@@ -18,7 +18,9 @@ module.exports = (app) => {
           if (error) throw error;
 
           const $ = cheerio.load(body);
+
           $('article h2').each( function (i, element) {
+
             if (i < maxArticles) {
               let result = {};
 
@@ -30,13 +32,21 @@ module.exports = (app) => {
                 .children('a')
                 .attr('href');
 
+              result.summary = $(this)
+                .siblings('.summary')
+                .text();
+
               db.Article
                 .create(result)
-                .catch(err => res.json(err) );
+                .then(r => res.send())
+                .catch(err => res.json(err));
+            } else {
+              return false;
             }
           });
         });
       });
+
   });
 
   // Retrieve the articles in collection 
