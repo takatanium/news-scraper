@@ -4,38 +4,40 @@ const cheerio = require('cheerio');
 const request = require('request');
 const db = require('../models/');
 
-const maxArticles = 10;
+const maxArticles = 12;
 
 module.exports = (app) => {
   // Scrape NY Times Website
   app.get('/scrape', (req, res) => {
     //delete documents from articles unless saved
-    db.Article.find({saved: false}).remove((err, num) => {
-      if (err) throw err;
-      request('https://www.nytimes.com/', function(error, response, body) {
-        if (error) throw error;
+    db.Article.find({saved: false})
+      .remove((err, num) => {
+        if (err) throw err;
+      })
+      .then((dbArticle) => {
+        request('https://www.nytimes.com/', (error, response, body) => {
+          if (error) throw error;
 
-        const $ = cheerio.load(body);
-        $('article h2').each( function (i, element) {
-          if (i < maxArticles) {
-            let result = {};
+          const $ = cheerio.load(body);
+          $('article h2').each( function (i, element) {
+            if (i < maxArticles) {
+              let result = {};
 
-            result.title = $(this)
-              .children('a')
-              .text();
+              result.title = $(this)
+                .children('a')
+                .text();
 
-            result.link = $(this)
-              .children('a')
-              .attr('href');
+              result.link = $(this)
+                .children('a')
+                .attr('href');
 
-            db.Article
-              .create(result)
-              .then(dbArticle => res.json('Scraped') )
-              .catch(err => res.json(err) );
-          }
+              db.Article
+                .create(result)
+                .catch(err => res.json(err) );
+            }
+          });
         });
       });
-    });
   });
 
   // Retrieve the articles in collection 
